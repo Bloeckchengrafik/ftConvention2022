@@ -1,3 +1,6 @@
+---
+nav_order: 2
+---
 ## 2. Setting your Arduino IDE
 
 The easiest way to write some code for your ftSwarm is using the arduino IDE. Please use at least version 1.8.19. 2.x beta versions are compatible as well. 
