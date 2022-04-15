@@ -1,4 +1,4 @@
-##Setting your Arduino IDE
+## Setting your Arduino IDE
 
 The easiest way to write some code for your ftSwarm is using the arduino IDE. Please use at least version 1.8.19. A 2.x beta version is compatible as well. 
 
