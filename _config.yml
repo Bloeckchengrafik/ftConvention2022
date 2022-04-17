@@ -3,7 +3,6 @@ remote_theme: just-the-docs/just-the-docs
 permalink: pretty
 
 logo: "/assets/img/ftSwarm.svg"
-
 aux_links:
         "Fork me on Github":
          - "//github.com/elektrofuzzis/ftSwarm"
