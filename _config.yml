@@ -2,7 +2,7 @@ remote_theme: just-the-docs/just-the-docs
 
 permalink: pretty
 
-logo: "/ftSwarm.svg"
+logo: "/assets/img/ftSwarm.svg"
 
 aux_links:
         "Fork me on Github":

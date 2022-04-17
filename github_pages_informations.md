@@ -1,5 +1,5 @@
 ---
-nav_order: 9999
+nav_exclude: true
 ---
 ## Welcome to GitHub Pages
 
