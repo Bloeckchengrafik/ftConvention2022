@@ -21,4 +21,5 @@ Originally, the project was designed to use with *fischertechnik*. Since the mou
 	<br>
 </div>
 
-Since building this hardware on your own is a little bit tricky, you could purchase it at [www.gundermann.org](www.gundermann.org).
+Since building this hardware on your own is a little bit tricky, we offer ready to use devices at [www.gundermann.org](www.gundermann.org).
+For all who want's to build their own pcb, we provide the needed schematic files at github as well.
