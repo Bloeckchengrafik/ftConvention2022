@@ -80,5 +80,5 @@ Let's have a look on the swarm monitor as well. If you already added your ftSwar
 `http:\\ftSwarm<SerialNumber>` with your browser. Replace <SerialNumber> with your ftSwarm's serial number. If you press the switch,
 you will see the status changes at the ftSwarm's monitor page as well:
 
-![Monitoring ftSwarm](/assets/img/ftSwarm_Monitor.png)
+![Monitoring ftSwarm](../assets/img/ftSwarm_Monitor.png)
 
