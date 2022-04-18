@@ -1,6 +1,6 @@
 ---
 title: First Application
-parent: Writing Applications
+parent: Writing C++ Applications
 nav_order: 2
 ---
 ## First Application
@@ -15,8 +15,8 @@ The hardware setup is easy:
 - Connect a 9V power supply to PWR.
 - Connect the ftSwarm via USB cable with your computer.
 
-Start you Arduino IDE. Select in `Tools\Board\ESP32 Arduino\ESP32 Dev Module` and in `Tools\Port` the serial port of your device.
-Now write the following code and upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
+Start you Arduino IDE. Select `ESP32 Dev Module` in `Tools\Board\ESP32 Arduino` and the serial port of your device in `Tools\Port`.
+Write the following code and upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
 
 ```
 #include "ftSwarm.h"
@@ -76,9 +76,9 @@ else
   motor->setSpeed(0);
 ```
 
-Let's have a look on the swarm monitor as well. If you already added your ftSwarm device to your local wifi, you just need to access 
+Let's have a look on the swarm monitor. If you already added your ftSwarm device to your local wifi, you just need to access 
 `http:\\ftSwarm<SerialNumber>` with your browser. Replace <SerialNumber> with your ftSwarm's serial number. If you press the switch,
-you will see the status changes at the ftSwarm's monitor page as well:
+you will see the status changes at the ftSwarm's monitor page:
 
 ![Monitoring ftSwarm](../assets/img/ftSwarm_Monitor.png)
 

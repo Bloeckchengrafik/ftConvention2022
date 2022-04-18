@@ -1,7 +1,7 @@
 ---
 title: Using The Swarm
-parent: Writing Applications
-nav_order: 2
+parent: Writing C++ Applications
+nav_order: 3
 ---
 
 ## Using The Swarm
@@ -15,7 +15,7 @@ are connected to different controllers:
 - Connect a 9V power supply to your second device.
 - Move the motor to M2 of the new device.
 
-To run this program, both ftSwarm devices need to be connected in a swarm.
+*To run this program at the first controller, both ftSwarm devices need to be connected in a swarm. The second controller runs the standard firmware.*
 
 ```
 #include "ftSwarm.h"
@@ -56,10 +56,10 @@ Basically, the application is the same as [The First Application](../2_1stApp). 
 - `#define remote=2` sets the serial number of your 2nd device. Please change the serial number to your 2nd device serial number.
 - `FtSwarmMotor( remote, FTSWARM_M02 );` now uses the remote device serial number instead of the local serial number.
 
-On the monitor page of your first device, you will now see both controllers.
+At the monitor page of your first device, you will now see both controllers.
 
 Start the serial monitor and unplug the 9V power suplly from the second device. Restart the first one. 
-With `FtSwarmMotor( remote, FTSWARM_M02 );` you will get the debug output `Waiting on device`. The firmware waits on the motor IO joining the swarm.
+With `FtSwarmMotor( remote, FTSWARM_M02 );` you will get the debug output `Waiting on device`. The firmware waits for the motor IO-pin joining the swarm.
 Add the 9V power supply again. Once the second device is started, your application will continue.
 
 This feature helps you starting a swarm based roboter. You don't need to think about the timing or sequence of starting your devices.
