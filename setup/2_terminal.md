@@ -38,4 +38,3 @@ screen /dev/cu.device_name 115200
 Replace device_name with the name found running ls /dev/cu.*.
 
 Reset your ftSwarm to check some output. To exit the screen session type Ctrl-A + \ .
-
