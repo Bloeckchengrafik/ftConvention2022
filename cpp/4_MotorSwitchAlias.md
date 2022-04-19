@@ -1,15 +1,15 @@
 ---
-title: Improve Your Swarm
+title: Motor & Switch Using Alias
 parent: Writing C++ Applications
 nav_order: 4
 ---
 
-## Improve Your Swarm
+## Motor & Switch Using Alias
 
 Up to now the IO's were identified by the serial number and the name of the port. This is nice in a small setup, but it could be confusing in a bigger setup.
 This example uses alias names. So you don’t have to code which actuator or sensor uses which physical IO-pin in your code.
 
-Use the setup of [Using The Swarm](3_UseSwarm).
+Use the setup of [Motor & Switch Using The Swarm](3_MotorSwitchSwarm).
 
 First, you need to set the alias names for switch and motor. Therefore you need to call the firmware's setup routine:
 
@@ -33,31 +33,28 @@ Now we need to modify both lines to instantiate switch and motor:
 ```
 #include "ftSwarm.h"
 
-// serial number of the second controller - change it to your 2nd device serial number
-#define remote = 2
-
-FtSwarmSwitch *switch;
-FtSwarmMotor  *motor;
+FtSwarmSwitch *sw;
+FtSwarmMotor  *mot;
 
 void setup( ) {
 
   // start the swarm
-  FtSwarmSerialNumber local = ftSwarm.begin( );
-	
+  FtSwarmSerialNumber_t local = ftSwarm.begin( );
+  
   // get switch and motor instances
-  switch = new FtSwarmSwitch( "switch" );
-  motor  = new FtSwarmMotor( "motor" );
+  sw  = new FtSwarmSwitch( "switch" );
+  mot = new FtSwarmMotor( "motor" );
 
 }
 
 void loop( ) {
 
   // check if switch is pressed or released
-  if ( switch->isPressed() )
-    motor->setSpeed(255);
+  if ( sw->isPressed() )
+    mot->setSpeed(255);
   else
-    motor->setSpeed(0);
-	
+    mot->setSpeed(0);
+  
   // wait some time
   delay(100);
 
@@ -66,7 +63,8 @@ void loop( ) {
 
 Let's look at the monitor page of your swarm. The IO's show their alias names as well.
 
-Finally, modify your hardware setup. Move your motor to port M02 of your first device. Set the alias "motor" at your first device. Start the application again. It's running without any changes!.
+Finally, modify your hardware setup. Move your motor to port M02 of your first device. Set the alias "motor" at your first device. Start the application again. 
+It's working without any changes!
 
 *But keep in mind, an alias name needs to be unique in your swarm! In this example it doesn't matter to define "motor" twice. 
 The firmware alsways checks the local device alias names first. But using multiple remote devices, the result depends on the boot sequence of the remote devices.*

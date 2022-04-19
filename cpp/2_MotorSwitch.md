@@ -1,9 +1,9 @@
 ---
-title: First Application
+title: Motor & Switch
 parent: Writing C++ Applications
 nav_order: 2
 ---
-## First Application
+## Motor & Switch
 
 The first application is not about writing "Hello World" on a display. It's just to control a motor with a simple switch. 
 Therefore you need a ftSwarm, a switch, a motor and a 9V power supply.
@@ -21,27 +21,27 @@ Write the following code and upload it to your device. Whenever you press your s
 ```
 #include "ftSwarm.h"
 
-FtSwarmSwitch *switch;
-FtSwarmMotor  *motor;
+FtSwarmSwitch *sw;
+FtSwarmMotor  *mot;
 
 void setup( ) {
 
   // start the swarm
-  FtSwarmSerialNumber local = ftSwarm.begin( );
+  FtSwarmSerialNumber_t local = ftSwarm.begin( );
 	
   // get switch and motor instances
-  switch = new FtSwarmSwitch( local, FTSWARM_A01 );
-  motor  = new FtSwarmMotor( local, FTSWARM_M02 );
+  sw  = new FtSwarmSwitch( local, FTSWARM_A1 );
+  mot = new FtSwarmMotor( local, FTSWARM_M2 );
 
 }
 
 void loop( ) {
 
   // check if switch is pressed or released
-  if ( switch->isPressed() )
-    motor->setSpeed(255);
+  if ( sw->isPressed() )
+    mot->setSpeed(255);
   else
-    motor->setSpeed(0);
+    mot->setSpeed(0);
 	
   // wait some time
   delay(100);
@@ -59,8 +59,8 @@ FtSwarmSerialNumber local = ftSwarm.begin( );
 The result is the serial number of your local controller. With this serial number, you could now instantiate switch and motor:
 
 ```
-switch = new FtSwarmSwitch( local, FTSWARM_A01 );
-motor  = new FtSwarmMotor( local, FTSWARM_M02 );
+sw  = new FtSwarmSwitch( local, FTSWARM_A1 );
+mot = new FtSwarmMotor( local, FTSWARM_M2 );
 ```
 
 Due to the architecture of the firmware, you could not access an IO before your swarm is started.
@@ -70,10 +70,10 @@ To work with global objects, they need to be defined as pointers. So you are abl
 The main loop is just about querying the switch state and starting/stopping the motor:
 
 ```
-if ( switch->isPressed() )
-  motor->setSpeed(255);
+if ( sw->isPressed() )
+  mot->setSpeed(255);
 else
-  motor->setSpeed(0);
+  mot->setSpeed(0);
 ```
 
 Let's have a look on the swarm monitor. If you already added your ftSwarm device to your local wifi, you just need to access 
