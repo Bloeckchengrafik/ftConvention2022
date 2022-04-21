@@ -30,8 +30,8 @@ Since the second device is running the standard firmware, you don't need to uplo
 
 Now we need to modify both lines to instantiate switch and motor:
 
-```
-#include "ftSwarm.h"
+```cpp
+#include <ftSwarm.h>
 
 FtSwarmSwitch *sw;
 FtSwarmMotor  *mot;

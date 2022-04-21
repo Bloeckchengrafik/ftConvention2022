@@ -18,8 +18,8 @@ The hardware setup is easy:
 Start you Arduino IDE. Select `ESP32 Dev Module` in `Tools\Board\ESP32 Arduino` and the serial port of your device in `Tools\Port`.
 Write the following code and upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
 
-```
-#include "ftSwarm.h"
+```cpp
+#include <ftSwarm.h>
 
 FtSwarmSwitch *sw;
 FtSwarmMotor  *mot;
@@ -54,7 +54,7 @@ void loop( ) {
 The application is quite easy to understand. `#include "ftSwarm.h">` includes the ftSwarm-Library to access the ftSwarm firmware. 
 Afterwards two pointers for `switch` and `motor` are defined. In setup routine your swarm starts with 
 
-```
+```cpp
 Serial.begin(115200);
 
 // start the swarm
@@ -65,7 +65,7 @@ You need to initialize the serial communication since to send some startup and e
 
 The result is the serial number of your local controller. With this serial number, you could now instantiate switch and motor:
 
-```
+```cpp
 sw  = new FtSwarmSwitch( local, FTSWARM_A1 );
 mot = new FtSwarmMotor( local, FTSWARM_M2 );
 ```
@@ -76,7 +76,7 @@ To work with global objects, they need to be defined as pointers. So you are abl
 
 The main loop is just about querying the switch state and starting/stopping the motor:
 
-```
+```cpp
 if ( sw->isPressed() )
   mot->setSpeed(255);
 else

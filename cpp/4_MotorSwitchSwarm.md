@@ -17,8 +17,8 @@ are connected to different controllers:
 
 *To run this program at the first controller, both ftSwarm devices need to be connected in a swarm. The second controller runs the standard firmware.*
 
-```
-#include "ftSwarm.h"
+```cpp
+#include <ftSwarm.h>
 
 // serial number of the second controller - change it to your 2nd device serial number
 #define remote 2
