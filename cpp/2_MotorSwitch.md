@@ -26,7 +26,10 @@ FtSwarmMotor  *mot;
 
 void setup( ) {
 
+  Serial.begin(115200);
+
   // start the swarm
+  ftSwarm.verbose(true);
   FtSwarmSerialNumber_t local = ftSwarm.begin( );
 	
   // get switch and motor instances
@@ -53,8 +56,15 @@ The application is quite easy to understand. `#include "ftSwarm.h">` includes th
 Afterwards two pointers for `switch` and `motor` are defined. In setup routine your swarm starts with 
 
 ```
+Serial.begin(115200);
+
+// start the swarm
+ftSwarm.verbose(true);
 FtSwarmSerialNumber local = ftSwarm.begin( );
 ```
+
+You need to initialize the serial communication since to send some startup and error messages if needed. With `ftSwarm.verbose(true);`, the ftSwarm gets chatty.
+Just to show, what's going on.
 
 The result is the serial number of your local controller. With this serial number, you could now instantiate switch and motor:
 
@@ -82,3 +92,4 @@ you will see the status changes at the ftSwarm's monitor page:
 
 ![Monitoring ftSwarm](../assets/img/ftSwarm_Monitor.png)
 
+*Since the monitor page is written in vue.js, you need to enable script in your browser*

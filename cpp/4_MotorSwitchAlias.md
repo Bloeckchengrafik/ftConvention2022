@@ -38,7 +38,10 @@ FtSwarmMotor  *mot;
 
 void setup( ) {
 
+  Serial.begin(115200);
+
   // start the swarm
+  ftSwarm.verbose(true);
   FtSwarmSerialNumber_t local = ftSwarm.begin( );
   
   // get switch and motor instances
