@@ -29,7 +29,6 @@ void setup( ) {
   Serial.begin(115200);
 
   // start the swarm
-  ftSwarm.verbose(true);
   FtSwarmSerialNumber_t local = ftSwarm.begin( );
 	
   // get switch and motor instances
@@ -59,12 +58,10 @@ Afterwards two pointers for `switch` and `motor` are defined. In setup routine y
 Serial.begin(115200);
 
 // start the swarm
-ftSwarm.verbose(true);
 FtSwarmSerialNumber local = ftSwarm.begin( );
 ```
 
-You need to initialize the serial communication since to send some startup and error messages if needed. With `ftSwarm.verbose(true);`, the ftSwarm gets chatty.
-Just to show, what's going on.
+You need to initialize the serial communication since to send some startup and error messages if needed. 
 
 The result is the serial number of your local controller. With this serial number, you could now instantiate switch and motor:
 
