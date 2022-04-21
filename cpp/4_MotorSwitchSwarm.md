@@ -1,7 +1,7 @@
 ---
 title: Motor & Switch Using The Swarm
 parent: Writing C++ Applications
-nav_order: 3
+nav_order: 4
 ---
 
 ## Motor & Switch Using The Swarm

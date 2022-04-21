@@ -1,7 +1,7 @@
 ---
 title: Motor & Switch
 parent: Writing C++ Applications
-nav_order: 2
+nav_order: 3
 ---
 ## Motor & Switch
 

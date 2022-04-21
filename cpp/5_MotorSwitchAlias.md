@@ -1,7 +1,7 @@
 ---
 title: Motor & Switch Using Alias
 parent: Writing C++ Applications
-nav_order: 4
+nav_order: 5
 ---
 
 ## Motor & Switch Using Alias
