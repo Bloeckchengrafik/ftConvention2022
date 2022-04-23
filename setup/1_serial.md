@@ -48,3 +48,6 @@ The port which appears the second time is the one you need:
 ```
 ls /dev/cu.*
 ```
+
+[Choose and test a terminal program](../2_terminal){: .btn .float-right }
+<br>

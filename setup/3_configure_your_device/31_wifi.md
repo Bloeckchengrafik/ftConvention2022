@@ -43,3 +43,6 @@ Working in **AP-Mode** you need to specify your wifi **channel** as well. Since 
 All devices in your Swarm must use the same channel. Since adjacent channels influence each other, it's best practice to use only channels 1, 6 and 11.
 
 In CLIENT-MODE the channel is automatically set by your wifi infrastructure.
+
+[Setup your swarm](../32_swarm){: .btn .float-right }
+<br>

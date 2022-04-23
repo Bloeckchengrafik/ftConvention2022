@@ -15,8 +15,7 @@ The hardware setup is easy:
 - Connect a 9V power supply to PWR.
 - Connect the ftSwarm via USB cable with your computer.
 
-Start you Arduino IDE. Select `ESP32 Dev Module` in `Tools\Board\ESP32 Arduino` and the serial port of your device in `Tools\Port`.
-Write the following code and upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
+Write the following code or use the example files. Upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
 
 ```cpp
 #include <ftSwarm.h>

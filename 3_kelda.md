@@ -28,3 +28,5 @@ All other controllers report their sensor states back, the Kelda knows about eve
 So you just need to write one program with the two procedures `setup`and `loop` again. All other controllers run the standard "firmware". 
 By using the ftSwarm-Library, your "Kelda" program could access all of the distributed actuators and sensors easyly.
 
+[Start writing your first C++ application](../cpp/0_program){: .btn .float-right }
+<br>

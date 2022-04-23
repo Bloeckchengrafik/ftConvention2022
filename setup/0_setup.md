@@ -1,15 +1,20 @@
 ---
 title: Setup
-nav_order: 2
+nav_order: 3
 has_children: yes 
-
-has_toc: false
+has_toc: no
 ---
 ## Setup
 
-Before you can write your first Swarm application, you need to do some configuration work:
+Before you can write your first Swarm application, you need to do some configuration work. For security reasons, all of the configuration work is done via an usb/serial connection and a terminal program.
 
-- [Create a serial connection via USB](../1_serial)
-- [Connect to the ftSwarm console using a terminal program](../2_terminal)
-- [Setting up wifi and create a swarm](../3_configure_your_device/30_configure_your_device)
-- [Setting up your Arduino IDE](../4_arduino)
+You need to go through the following steps:
+
+- Create a usb/serial connection to your computer
+- Choose a terminal progam
+- Setup wifi connection
+- Buid up your swarm.
+
+
+[Create a usb/serial connection](../1_serial){: .btn .float-right }
+<br>

@@ -22,3 +22,6 @@ Main menu<br>
 {: .bg-grey-lt-000 .px-4 .py-4 .fs-3 }
 
 You now need to configure the `wifi settings` of all controller's and build the swarm via `swarm settings`.
+
+[Setup wifi connection](../31_wifi){: .btn .float-right }
+<br>

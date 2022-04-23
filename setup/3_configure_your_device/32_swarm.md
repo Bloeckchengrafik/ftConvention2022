@@ -41,3 +41,12 @@ Afterwards, the device leaves the old swarm and joins the new one. To check swar
 ### List swarm members
 
 This feature is to show all swarm members, which are actually online.
+
+<br>
+*Congratulations! You have successfully succeded the needed setup work. Yes, there are some other options available like setting an alias name or running a factory reset. 
+But these features are advanced options. Read them later.*
+
+*Let's continue understanding the swarms basics and read about the kelda principle.*
+
+[The Kelda Principle](../../../3_kelda){: .btn .float-right }
+<br>
