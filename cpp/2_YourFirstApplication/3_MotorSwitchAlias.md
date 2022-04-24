@@ -1,15 +1,16 @@
 ---
-title: Motor & Switch Using Alias
-parent: Writing C++ Applications
-nav_order: 5
+title: Use Alias Names
+parent: Your First Application
+grand_parent: Writing C++ Applications
+nav_order: 2
 ---
 
-## Motor & Switch Using Alias
+## Use Alias Names
 
 Up to now the IO's were identified by the serial number and the name of the port. This is nice in a small setup, but it could be confusing in a bigger setup.
 This example uses alias names. So you don’t have to code which actuator or sensor uses which physical IO-pin in your code.
 
-Use the setup of [Motor & Switch Using The Swarm](3_MotorSwitchSwarm).
+Use the setup of [Using The Swarm](../2_MotorSwitchSwarm).
 
 First, you need to set the alias names for switch and motor. Therefore you need to call the firmware's setup routine:
 
@@ -25,7 +26,7 @@ void loop() {
 }
 ```
 
-Connect via usb and terminal program. Set the alias `switch` for port A01 as described in [Configure Your Device](../setup/30_configure_your_device).
+Connect via usb and terminal program. Set the alias `switch` for port A01 as described in [Configure Your Device](../../setup/30_configure_your_device).
 Since the second device is running the standard firmware, you don't need to upload this snippet. Just connect via USB and set the alias `motor`for port M01.
 
 Now we need to modify both lines to instantiate switch and motor:

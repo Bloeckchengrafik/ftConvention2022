@@ -39,5 +39,5 @@ lib_deps = bloeckchengrafik/ftSwarm
 
 
 <br>
-[Run your first application: motor&switch](../../3_MotorSwitch){: .btn .float-right }
+[Write your first application: motor&switch](../../1_YourFirstApplication/3_MotorSwitch){: .btn .float-right }
 <br>

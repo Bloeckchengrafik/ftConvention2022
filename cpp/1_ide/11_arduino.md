@@ -36,5 +36,5 @@ To install and configure your arduino IDE, please use the following steps:
 7. You could access the examples at `File/Examples/Examples From Custom Libraries/ftSwarm`
 
 <br>
-[Run your first application: motor&switch](../../3_MotorSwitch){: .btn .float-right }
+[Write your first application: motor&switch](../../2_YourFirstApplication/1_MotorSwitch){: .btn .float-right }
 <br>

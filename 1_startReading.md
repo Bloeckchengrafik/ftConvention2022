@@ -5,9 +5,47 @@ nav_order: 2
 ## Start Reading Here
 
 This project site is also tutorial and documentation. To understand ftSwarm programming and principles, you should read these pages like a book.
-At the bottom of each page, we set some buttons. They will help to thumb through this book.
+Labels and buttons will help you understanding the text.
 
-### Intended Use & Warranty
+<style>
+td, th {
+    border: none!important;
+}
+.table-wrapper {
+	box-shadow: 0px 0px 0px!important;
+}
+</style>
+
+
+<table>
+	<tr>
+		<td style="text-align: center; vertical-align: middle;">
+			<p class="label label-purple">Beta</p>
+		</td>
+		<td>
+			This is a beta feature. Implementation might be instable, documentation faulty or incomplete.
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; vertical-align: middle;">
+			<p class="label label-yellow">Comming Soon</p>
+		</td>
+		<td>
+			We are working on this feature, but it isn't part of the firmware today.
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; vertical-align: middle;">
+			<a class="btn float-right">Where to go next</a>
+		</td>
+		<td>
+			At the bottom of most pages, we set some buttons. They will help to thumb through this book.
+		</td>
+	</tr>
+</table>
+
+
+## Intended Use & Warranty
 
 The ftSwarm project to build small networked controllers for DIY and toy applications. 
 This project gives you the needed hard- and software. But it's your project and you need to take care of your project.

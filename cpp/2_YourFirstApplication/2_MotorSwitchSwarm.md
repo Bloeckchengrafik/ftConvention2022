@@ -1,16 +1,17 @@
 ---
-title: Motor & Switch Using The Swarm
-parent: Writing C++ Applications
-nav_order: 4
+title: Use The Swarm
+parent: Your First Application
+grand_parent: Writing C++ Applications
+nav_order: 1
 ---
 
-## Motor & Switch Using The Swarm
+## Use The Swarm
 
-[Motor & Switch](../2_MotorSwitch) was nice to show how a ftSwarm application is coded. But it was just a simple "one-controller-application".
+[Your First Application](../1_MotorSwitch) was nice to show how a ftSwarm application is coded. But it was just a simple "one-controller-application".
 Now it's time to use the swarm. The application's idea is the same - control a motor by a switch. But in this application, switch and motor
 are connected to different controllers:
 
-- Use the setup of [Motor & Switch](../2_MotorSwitch).
+- Use the setup of [Your First Application](../1_MotorSwitch).
 - Add a second ftSwarm or ftSwarmControl device.
 - Connect a 9V power supply to your second device.
 - Move the motor to M2 of the new device.
@@ -53,7 +54,7 @@ void loop( ) {
 }
 ```
 
-Basically, the application is the same as [Motor & Switch](../2_MotorSwitch). There are only two changes:
+Basically, the application is the same as [Your First Application](../1_MotorSwitch). There are only two changes:
 
 - `#define remote=2` sets the serial number of your 2nd device. Please change the serial number to your 2nd device serial number.
 - `FtSwarmMotor( remote, FTSWARM_M2 );` now uses the remote device serial number instead of the local serial number.
@@ -65,3 +66,7 @@ With `FtSwarmMotor( remote, FTSWARM_M2 );` you will get the debug output `Waitin
 Add the 9V power supply again. Once the second device is started, your application will continue.
 
 This feature helps you starting a swarm based roboter. You don't need to think about the timing or sequence of starting your devices.
+
+<br>
+[Let's use alias names](../3_MotorSwitchAlias){: .btn .float-right }
+<br>

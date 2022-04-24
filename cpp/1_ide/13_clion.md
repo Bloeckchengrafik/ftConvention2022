@@ -6,7 +6,8 @@ nav_order: 3
 has_children: yes
 has_toc: no
 ---
-
+Beta
+{: .label .label-purple .float-right }
 ## CLion
 
 1. Download and install the IDE [CLion](https://www.jetbrains.com/clion/)
@@ -20,5 +21,5 @@ has_toc: no
 4. Run `pio run` to download and build all libraries.
 
 <br>
-[Run your first application: motor&switch](../../3_MotorSwitch){: .btn .float-right }
+[Write your first application: motor&switch](../../2_YourFirstApplication/1_MotorSwitch){: .btn .float-right }
 <br>

@@ -1,9 +1,11 @@
 ---
-title: Motor & Switch
+title: Your First Application
 parent: Writing C++ Applications
 nav_order: 3
+has_children: yes
+has_toc: false
 ---
-## Motor & Switch
+## Your First Application
 
 The first application is not about writing "Hello World" on a display. It's just to control a motor with a simple switch. 
 Therefore you need a ftSwarm, a switch, a motor and a 9V power supply.
@@ -15,7 +17,7 @@ The hardware setup is easy:
 - Connect a 9V power supply to PWR.
 - Connect the ftSwarm via USB cable with your computer.
 
-Write the following code or use the example files. Upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
+Write the following code or use the example file *MotorSwitch*. Upload it to your device. Whenever you press your switch, the motor starts running. If you release the switch, the motor stops.
 
 ```cpp
 #include <ftSwarm.h>
@@ -86,6 +88,10 @@ Let's have a look on the swarm monitor. If you already added your ftSwarm device
 `http:\\ftSwarm<SerialNumber>` with your browser. Replace <SerialNumber> with your ftSwarm's serial number. If you press the switch,
 you will see the status changes at the ftSwarm's monitor page:
 
-![Monitoring ftSwarm](../assets/img/ftSwarm_Monitor.png)
+![Monitoring ftSwarm](../../assets/img/ftSwarm_Monitor.png)
 
 *Since the monitor page is written in vue.js, you need to enable script in your browser*
+
+<br>
+[Let's use the swarm](../2_MotorSwitchSwarm){: .btn .float-right }
+<br>
