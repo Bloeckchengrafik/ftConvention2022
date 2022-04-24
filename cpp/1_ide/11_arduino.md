@@ -1,6 +1,7 @@
 ---
 title: Arduino IDE
-parent: Writing C++ Applications
+parent: Choose your IDE
+grand_parent: Writing C++ Applications
 nav_order: 1
 ---
 ## Arduino IDE
@@ -35,5 +36,5 @@ To install and configure your arduino IDE, please use the following steps:
 7. You could access the examples at `File/Examples/Examples From Custom Libraries/ftSwarm`
 
 <br>
-[Run your first application: motor&switch](../3_MotorSwitch){: .btn .float-right }
+[Run your first application: motor&switch](../../3_MotorSwitch){: .btn .float-right }
 <br>
