@@ -5,7 +5,7 @@ grand_parent: Writing C++ Applications
 nav_order: 3
 ---
 
-<div class="ftimgdetail"> <img src="/assets/img/switches/photo-transistor.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/switches/photo-transistor.png"><div>Image source: fischertechnik</div></div>
 
 ## FtSwarmLightBarrier
 

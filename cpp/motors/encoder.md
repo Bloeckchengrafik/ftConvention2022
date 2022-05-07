@@ -4,7 +4,7 @@ parent: Motor Types
 grand_parent: Writing C++ Applications
 nav_order: 4
 ---
-<div class="ftimgdetail"> <img src="/assets/img/motor/motor-encoder.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/motor/motor-encoder.png"><div>Image source: fischertechnik</div></div>
 
 ## FtSwarmEncoderMotor
 

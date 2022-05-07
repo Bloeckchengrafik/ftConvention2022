@@ -4,7 +4,7 @@ parent: Buttons & Switches
 grand_parent: Writing C++ Applications
 nav_order: 2
 ---
-<div class="ftimgdetail"> <img src="/assets/img/switches/ftSwarmControl.png"></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/switches/ftSwarmControl.png"></div>
 
 ## FtSwarmButton
 

@@ -4,7 +4,7 @@ parent: Buttons & Switches
 grand_parent: Writing C++ Applications
 nav_order: 4
 ---
-<div class="ftimgdetail"> <img src="/assets/img/switches/switch-reed.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/switches/switch-reed.png"><div>Image source: fischertechnik</div></div>
 
 ## FtSwarmReedSwitch
 

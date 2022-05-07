@@ -4,7 +4,7 @@ parent: Lamp, Led & Display
 grand_parent: Writing C++ Applications
 nav_order: 1
 ---
-<div class="ftimgdetail"> <img src="/assets/img/LampLedDisplay/kombi.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/LampLedDisplay/kombi.png"><div>Image source: fischertechnik</div></div>
 
 ## ftSwarmLamp
 

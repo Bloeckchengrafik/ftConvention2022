@@ -53,31 +53,31 @@ So the following `switch.hasToggeledUp()` will be always `false`.
 <div class="flex-imgs">
 	<div class="ftblock">
 		<a href="../switch/">
-			<img class="ftimg" src="/assets/img/switches/switch-mini.png">
+			<img class="ftimg" src="../../../assets/img/switches/switch-mini.png">
 			<p class="fttext">Mini Switch (37783)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../switch/">
-			<img class="ftimg" src="/assets/img/switches/switch-reversing.png">
+			<img class="ftimg" src="../../../assets/img/switches/switch-reversing.png">
 			<p class="fttext">Reversing switch (36708)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../photo-transistor/">
-			<img class="ftimg" src="/assets/img/switches/photo-transistor.png">
+			<img class="ftimg" src="../../../assets/img/switches/photo-transistor.png">
 			<p class="fttext">Photo Transistor (36134)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../switch-reed/">
-			<img class="ftimg" src="/assets/img/switches/switch-reed.png">
+			<img class="ftimg" src="../../../assets/img/switches/switch-reed.png">
 			<p class="fttext">Reed contact (36120)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../button/">
-			<img class="ftimg" src="/assets/img/switches/ftSwarmControl.png">
+			<img class="ftimg" src="../../../assets/img/switches/ftSwarmControl.png">
 			<p class="fttext">Buttons ftSwarmControl</p>
 		</a>
 	</div>

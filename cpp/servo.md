@@ -3,7 +3,7 @@ title: FtSwarmServo
 parent: Writing C++ Applications
 nav_order: 40
 ---
-<div class="ftimgdetail"> <img src="../assets/img/motor/motor-servo.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../assets/img/motor/motor-servo.png"><div>Image source: fischertechnik</div></div>
 
 ## FtSwarmServo
 

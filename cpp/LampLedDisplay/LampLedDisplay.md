@@ -19,37 +19,37 @@ The firmware provides three basic classes to run lamps, LEDs and the ftSwarmCont
 <div class="flex-imgs">
 	<div class="ftblock">
 		<a href="../FtSwarmLamp/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/led.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/led.png">
 			<p class="fttext">LED white (162134)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../FtSwarmLamp/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/led-transparent.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/led-transparent.png">
 			<p class="fttext">Rainbow LED (162136)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../FtSwarmLamp/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/led-transparent.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/led-transparent.png">
 			<p class="fttext">Light barriers LED (162135)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../FtSwarmLamp/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/lens-tip-lamp.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/lens-tip-lamp.png">
 			<p class="fttext">Lens tip lamp (37875)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../FtSwarmLED/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/ftSwarm.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/ftSwarm.png">
 			<p class="fttext">RGB LED ftSwarm</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../FtSwarmOLED/">
-			<img class="ftimg" src="/assets/img/LampLedDisplay/ftSwarmControl.png">
+			<img class="ftimg" src="../../../assets/img/LampLedDisplay/ftSwarmControl.png">
 			<p class="fttext">OLED ftSwarmControl</p>
 		</a>
 	</div>

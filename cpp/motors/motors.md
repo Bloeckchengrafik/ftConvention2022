@@ -39,37 +39,37 @@ In difference to `setSpeed(0)` both commands they will not change your speed set
 <div class="flex-imgs">
 	<div class="ftblock">
 		<a href="../xmotor/">
-			<img class="ftimg" src="/assets/img/motor/motor-xs.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-xs.png">
 			<p class="fttext">XS Motor (137096)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../xmotor/">
-			<img class="ftimg" src="/assets/img/motor/motor-mini.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-mini.png">
 			<p class="fttext">Mini Motor (32293)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../xmmotor/">
-			<img class="ftimg" src="/assets/img/motor/motor-xm.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-xm.png">
 			<p class="fttext">XM Motor (135485)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../tractor/">
-			<img class="ftimg" src="/assets/img/motor/motor-tractor.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-tractor.png">
 			<p class="fttext">Tractor Motor (151178)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../encoder/">
-			<img class="ftimg" src="/assets/img/motor/motor-encoder.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-encoder.png">
 			<p class="fttext">Encoder Motor (153422)</p>
 		</a>
 	</div>
 	<div class="ftblock">
 		<a href="../encoder/">
-			<img class="ftimg" src="/assets/img/motor/motor-encoder-competition.png">
+			<img class="ftimg" src="../../../assets/img/motor/motor-encoder-competition.png">
 			<p class="fttext">Encoder Motor (186175)</p>
 		</a>
 	</div>
