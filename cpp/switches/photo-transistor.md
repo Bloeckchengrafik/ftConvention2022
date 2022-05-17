@@ -10,10 +10,9 @@ nav_order: 3
 ## FtSwarmLightBarrier
 
 You could build a light barrier using a lense lamp and a photo transistor. Connect you lamp to a power supply.
-The photo transistor could be connected to all inputs `A1`.. `A4`. The red marked pin of needs to be connected to the inputs red cable.
+The photo transistor could be connected to all inputs `A1`.. `A4`. The red marked pin needs to be connected to the inputs red cable.
 
-Using the FtSwarmLightBarrier class, the photo transistor is 
-
+Using the FtSwarmLightBarrier class, the photo transistor is used as digital sensor. A high light intensity means the light barrier is open.
 
 
 ### API Reference

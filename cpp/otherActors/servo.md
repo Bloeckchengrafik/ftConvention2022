@@ -1,9 +1,10 @@
 ---
 title: FtSwarmServo
-parent: Writing C++ Applications
-nav_order: 40
+parent: Other Actors
+grand_parent: Writing C++ Applications
+nav_order: 3
 ---
-<div class="ftimgdetail"> <img src="../../assets/img/motor/motor-servo.png"><div>Image source: fischertechnik</div></div>
+<div class="ftimgdetail"> <img src="../../../assets/img/otherActors/motor-servo.png"><div>Image source: fischertechnik</div></div>
 
 ## FtSwarmServo
 
