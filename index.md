@@ -25,5 +25,5 @@ td, th {
 Since building this hardware on your own is a little bit tricky, we offer ready to use devices at [www.gundermann.org](www.gundermann.org).
 For all who want's to build their own pcb, we provide the needed schematic files at github as well.
 
-[Let's start!](../startReading){: .btn .float-right }
+[Let's start!](../ftSwarm/startReading){: .btn .float-right }
 <br>
