@@ -1,3 +1,3 @@
-# ftSwarm - der kleine Universalcontroller
+# FT Convention 2022
 
-Das Ziel des ftSwarm-Projektes ist es, kleine, per Netzwerk verbundene Controller für Do-it-Yourself und Spieleapplikationen zu bauen. Durch das Netzwerkfeature können diese wie ein Schwarm agieren. Mehr Informationen inklusive der Betriebsanleitung gibt es in den [englischen Docs auf GitHub Pages!](https://elektrofuzzis.github.io/ftSwarm/)
+The Goal of this year's FtConvention is to create an automatic part sorter via the ftSwarm.  
