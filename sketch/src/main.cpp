@@ -14,21 +14,23 @@ enum SwarmTypeElement_t
     Digital
 };
 
-struct Node_t
+class Node
 {
-    char *name;
+public:
+    String name;
     SwarmTypeElement_t type;
     FtSwarmSwitch *asSwitch;
     Trilean_t asSwitchState;
 
-    Node_t *next;
+    Node *next;
+    bool has_next;
 };
 
 FtSwarmSerialNumber_t fullSwarm[20];
 FtSwarmSerialNumber_t *ctx;
 
-Node_t head;
-Node_t tail;
+Node *head;
+Node *tail;
 bool has_list_elems = false;
 
 Trilean_t fromBool(bool in)
@@ -43,13 +45,87 @@ int timedRead()
 {
     int c;
     long _startMillis = millis();
-    do {
+    do
+    {
         c = Serial.read();
-        if(c >= 0) {
+        if (c >= 0)
+        {
             return c;
         }
-    } while(millis() - _startMillis < 3);
-    return -1;     // -1 indicates timeout
+    } while (millis() - _startMillis < 3);
+    return -1; // -1 indicates timeout
+}
+
+void appendNode(Node *node)
+{
+    if (!has_list_elems)
+    {
+        head = node;
+        has_list_elems = true;
+        tail = node;
+
+        Serial.printf("#warn %s\r\n", head->name);
+
+        return;
+    }
+
+    tail->next = node;
+    tail = node;
+}
+
+void printNodes()
+{
+    if (!has_list_elems)
+    {
+        Serial.println("#debug nodes = []");
+        return;
+    }
+
+    Serial.println("#debug nodes = [");
+
+    Node *current = head;
+
+    while (1)
+    {
+        Serial.printf("#debug '%s',\r\n", current->name);
+
+        if (!current->has_next) break;
+
+        current = current->next;
+    };
+    
+    Serial.println("#debug ]");
+}
+
+bool containsNode(const char *name)
+{
+    if (!has_list_elems)
+        return false;
+
+    Node *current = head;
+
+
+    while (1)
+    {
+        if (current->name.equals(name))
+        {
+            return true;
+        }
+
+        if (!current->has_next) break;
+
+        current = current->next;
+    }
+    return false;
+}
+
+void doDigital(Node *node) {
+    Trilean_t actual = fromBool(node->asSwitch->getState());
+    
+    if (actual == node->asSwitchState) return;
+
+    Serial.printf("!%s %d\r\n", node->name, node->asSwitch->getState());
+    node->asSwitchState = actual;
 }
 
 void setup()
@@ -64,6 +140,7 @@ void setup()
 
 void loop()
 {
+    // Work on Commands by the Controller
     if (Serial.available())
     {
 
@@ -78,21 +155,80 @@ void loop()
         command.replace("\r", "");
         command.replace("\n", "");
 
-        if (command.equalsIgnoreCase("sub"))
+        String args = command.substring(command.indexOf(" "));
+
+        if (command.startsWith("sub"))
         {
-            Serial.println("#error Inputs are not implemented");
+            command = command.substring(4);
+
+            if (command.startsWith("digital"))
+            {
+                command = command.substring(8);
+
+                if (containsNode(command.c_str()))
+                {
+                    Serial.printf("#info Already Subscribed to Button Press on %s\r\n", command);
+                    Serial.println("neu sub");
+                    return;
+                }
+
+                Node *node = new Node();
+
+                char cached_name[100];
+                strcpy(cached_name, command.c_str());
+
+                node->name = command;
+                node->type = SwarmTypeElement_t::Digital;
+                node->asSwitch = new FtSwarmSwitch(cached_name);
+                node->asSwitchState = Maybe;
+                node->has_next = false;
+
+                appendNode(node);
+
+                Serial.printf("#debug Subscribed to Button Press on %s\r\n", command);
+                Serial.println("suc sub");
+                return;
+            }
+
+            Serial.println("err sub");
         }
-        else if (command.equalsIgnoreCase("mot"))
+        else if (command.startsWith("mot"))
         {
             Serial.println("#error Motors are not implemented");
         }
-        else if (command.equalsIgnoreCase("led"))
+        else if (command.startsWith("led"))
         {
             Serial.println("#error LEDs are currently not implemented");
+            Serial.println("err led");
         }
-        else if (command.equalsIgnoreCase("srv"))
+        else if (command.startsWith("srv"))
         {
             Serial.println("#error Servos are not implemented");
+            Serial.println("err srv");
         }
+        else if (command.startsWith("nod"))
+        {
+            printNodes();
+            Serial.println("suc nod");
+        }
+    }
+
+    // Input Loop
+
+    if (!has_list_elems) return;
+
+    Node *current = head;
+
+    while (1)
+    {
+        switch (current->type) {
+            case Digital:
+                doDigital(current);
+                break;
+        }
+
+        if (!current->has_next) break;
+
+        current = current->next;
     }
 }
