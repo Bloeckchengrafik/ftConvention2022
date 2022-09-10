@@ -21,7 +21,9 @@ opt = OptionParser(version=VERSION)
 opt.add_option("-c", "--compile", help="Compile the program", action="store_true", default=False, dest="do_compile")
 opt.add_option("-u", "--upload", help="Upload the program", action="store_true", default=False, dest="do_upload")
 opt.add_option("-d", "--debug", help="Start Application with all logs enabled", action="store_true", default=False, dest="debuglogger")
-opt.add_option("-a", "--app", help="Start Application Service", action="store_true", default=False, dest="do_app")
+opt.add_option("-a", "--app", help="Start the app", action="store_true", default=False, dest="do_app")
+opt.add_option("-t", "--notxt", help="Don't start the txt", action="store_true", default=False, dest="notxt")
+opt.add_option("-s", "--noswarm", help="Don't start the swarm", action="store_true", default=False, dest="noswarm")
 
 sys.argv[0] = "convention"
 
@@ -46,8 +48,6 @@ if not args.do_app:
     logging.info("Done!")
     exit(0)
 
-info("Detecting Port..")
-
 portfiner = SerialPortFinder()
 
 globalstate = {
@@ -62,13 +62,35 @@ sort_queue = Queue()
 async def main():
     print_splash()
 
-    globalstate["swarm"] = FtSwarm(portfiner.find(),  args.debuglogger)
-    await gather_tasks(
+    withswarm = []
+
+    if not args.noswarm:
+        globalstate["swarm"] = FtSwarm(portfiner.find(),  args.debuglogger)
+
+        withswarm += [
+            globalstate["swarm"].inputloop()
+        ]
+    
+    withswarm += [
         detect(globalstate, detect_queue),
-        gather(globalstate, gather_queue),
-        sort(globalstate, sort_queue),
+        gather(globalstate, gather_queue)
+    ]
+
+    withtxt = [
+        sort(globalstate, sort_queue)
+    ]
+
+    all = withswarm + withtxt
+
+    if args.notxt:
+        all = withswarm
+
+    if args.noswarm:
+        all = withtxt
+    
+    await gather_tasks(
+        *all,
         repl(globalstate),
-        globalstate["swarm"].inputloop(),
         return_exceptions=True
     )
 
