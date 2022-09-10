@@ -52,6 +52,12 @@ class FtSwarmMotor:
         await self.swarm.system(f"mot {self.name} {speed}")
         self.__speed = speed
     
+class FtSwarmLamp(FtSwarmMotor):
+    async def on(self, val):
+        await self.set_speed(val)
+    
+    async def off(self):
+        await self.set_speed(0)
 
 
 class FtSwarm:
@@ -104,6 +110,9 @@ class FtSwarm:
     
     async def get_motor(self, name) -> FtSwarmMotor:
         return await self.get_obj(FtSwarmMotor, name)
+    
+    async def get_lamp(self, name) -> FtSwarmLamp:
+        return await self.get_obj(FtSwarmLamp, name)
 
     async def inputloop(self):
         while True:
