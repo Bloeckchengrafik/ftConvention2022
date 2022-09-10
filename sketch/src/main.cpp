@@ -11,7 +11,8 @@ enum Trilean_t
 
 enum SwarmTypeElement_t
 {
-    Digital
+    Digital,
+    Motor
 };
 
 class Node
@@ -19,8 +20,11 @@ class Node
 public:
     String name;
     SwarmTypeElement_t type;
+
     FtSwarmSwitch *asSwitch;
     Trilean_t asSwitchState;
+
+    FtSwarmMotor *asMotor;
 
     Node *next;
     bool has_next;
@@ -119,6 +123,28 @@ bool containsNode(const char *name)
     return false;
 }
 
+Node *getNode(const char *name)
+{
+    if (!has_list_elems)
+        return NULL;
+
+    Node *current = head;
+
+
+    while (1)
+    {
+        if (current->name.equals(name))
+        {
+            return current;
+        }
+
+        if (!current->has_next) break;
+
+        current = current->next;
+    }
+    return NULL;
+}
+
 void doDigital(Node *node) {
     Trilean_t actual = fromBool(node->asSwitch->getState());
     
@@ -194,7 +220,34 @@ void loop()
         }
         else if (command.startsWith("mot"))
         {
-            Serial.println("#error Motors are not implemented");
+            
+            command = command.substring(4);
+
+            int index = command.indexOf(" ");
+            String value = command.substring(index+1);
+            command = command.substring(0, index);
+
+
+            Node *node;
+
+            if (!containsNode(command.c_str())){
+                node = new Node();
+
+                char cached_name[100];
+                strcpy(cached_name, command.c_str());
+
+                node->name = command;
+                node->type = SwarmTypeElement_t::Motor;
+                node->asMotor = new FtSwarmMotor(cached_name);
+                node->has_next = false;
+
+                appendNode(node);
+            } else {
+                node = getNode(command.c_str());
+            }
+
+            node->asMotor->setSpeed(value.toInt());
+            Serial.println("suc mot");
         }
         else if (command.startsWith("led"))
         {
