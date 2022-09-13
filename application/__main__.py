@@ -3,7 +3,7 @@ from optparse import OptionParser
 import time
 from platformio.device.finder import SerialPortFinder 
 import sys, os
-from logging import info, debug
+from logging import error, info, debug
 import logging
 import coloredlogs
 
@@ -48,6 +48,12 @@ if not args.do_app:
     logging.info("Done!")
     exit(0)
 
+
+
+os.chdir("../application")
+debug("Returned")
+
+
 portfiner = SerialPortFinder()
 
 globalstate = {
@@ -58,6 +64,12 @@ globalstate = {
 detect_queue = Queue()
 gather_queue = Queue()
 sort_queue = Queue()
+
+async def try_run(coro):
+    try:
+        await coro
+    except Exception as e:
+        error("Application failed", exc_info=e)
 
 async def main():
     print_splash()
@@ -89,10 +101,8 @@ async def main():
         all = withtxt
     
     await gather_tasks(
-        *all,
-        repl(globalstate),
-        return_exceptions=True
-    )
+        *[try_run(a) for a in all],
+        repl(globalstate))
 
 
 if __name__ == "__main__":

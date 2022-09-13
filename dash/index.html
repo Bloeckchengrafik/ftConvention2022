@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Convention 22</title>
+
+        <link rel="stylesheet" href="jquery.terminal-2.34.0.min.css" />
+
+        <script src="jquery-3.6.1.slim.min.js" defer></script>
+        <script src="jquery.terminal-2.34.0.min.js" defer></script>
+        <script src="webcam-easy.min.js" defer></script>
+        <script src="index.js" defer></script>
+
+        <style>
+            body {
+                margin: 0;
+            }
+
+            #cam {
+                position: fixed;
+                top: 2em;
+                right: 2em;
+                background-color: dimgray;
+                border-radius: 5px;
+                width: 200px;
+                height: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="term" style="width: 100vw; height: 100vh; background: black; position: fixed"></div>
+        <video id="cam"></video>
+        <canvas id="can" style="opacity: 0;pointer-events: none;position: absolute;"></canvas>
+    </body>
+</html>

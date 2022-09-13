@@ -68,8 +68,6 @@ void appendNode(Node *node)
         has_list_elems = true;
         tail = node;
 
-        Serial.printf("#warn %s\r\n", head->name);
-
         return;
     }
 
