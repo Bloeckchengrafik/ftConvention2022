@@ -962,7 +962,7 @@ void localMenu( void ) {
       case 5: // RGBLeds
         if ( myOSSwarm.Ctrl[0]->getType() == FTSWARM ) {
           anythingChanged = true;
-          myOSSwarm.nvs.RGBLeds = enterNumber( "enter channel [2..16]: ", myOSSwarm.nvs.RGBLeds, 2, 16 );
+          myOSSwarm.nvs.RGBLeds = enterNumber( "enter num of leds [2..18]: ", myOSSwarm.nvs.RGBLeds, 2, 18 );
         }
         break;
 
@@ -1455,7 +1455,7 @@ void remoteControl( void ) {
 
 void FtSwarm::setup( void ) {
 
-  uint8_t choise;
+  uint8_t choice;
 
   printf("\n\nftSwarmOS %s\n\n(C) Christian Bergschneider & Stefan Fuss\n", SWOSVERSION );
 
@@ -1463,12 +1463,12 @@ void FtSwarm::setup( void ) {
 
     // FTSWARMCONTROL special HW
     if ( myOSSwarm.Ctrl[0]->getType() == FTSWARMCONTROL ) {
-      choise = enterNumber("\nMain menu\n\n(1) local settings\n(2) swarm settings\n(3) alias names\n(4) reset to factory settings\n(5) remote control\n\n(0) exit\nmain>", 0, 0, 5);
+      choice = enterNumber("\nMain menu\n\n(1) local settings\n(2) swarm settings\n(3) alias names\n(4) reset to factory settings\n(5) remote control\n\n(0) exit\nmain>", 0, 0, 5);
     } else {
-      choise = enterNumber("\nMain menu\n\n(1) local settings\n(2) swarm settings\n(3) alias names\n(4) reset to factory settings\n\n(0) exit\nmain>", 0, 0, 4);     
+      choice = enterNumber("\nMain menu\n\n(1) local settings\n(2) swarm settings\n(3) alias names\n(4) reset to factory settings\n\n(0) exit\nmain>", 0, 0, 4);     
     }
     
-    switch( choise  ) {
+    switch( choice ) {
       case 0: return;
       case 1: localMenu(); break;
       case 2: swarmMenu(); break;

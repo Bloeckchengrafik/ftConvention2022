@@ -1,3 +1,6 @@
 coloredlogs
 opencv-python
 SimpleWebSocketServer
+Pillow
+ftrobopy
+numpy

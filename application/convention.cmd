@@ -1,1 +1,1 @@
-@start py . %*
+@start py . %* 

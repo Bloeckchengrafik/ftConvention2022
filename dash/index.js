@@ -1,62 +1,93 @@
-term = $("#term").terminal()
-
-term.clear()
-
-term.echo(`
-▄▄▄▄▄▄▄▄▄▄▄             
-███████████      
-██████████████████████████████████████████████████████████████████████    |
-██▌                                                                ▐██    |
-██▌      ██████████████                                            ▐██    |         Welcome to the Sorter Shell
-██▌      ███        ███                                            ▐██    |
-██▌      ██████████████                                            ▐██    |                  v1.0.0
-██▌                                                                ▐██    |
-██▌                                                                ▐██    |
-██▌                     ▄█▄▄                                       ▐██    |
-██▌                      ▀████▄                                    ▐██    |       You'll be notified here for most events
-██▌                         ▀▀████▄                                ▐██    |
-██▌                            ▄████▌                              ▐██    |
-██▌                         ▄████▀▀                                ▐██    |
-██▌                      ▄███▀▀     ▄▄▄▄▄▄▄▄▄▄                     ▐██    |
-██▌                      ▀▀         ▀▀▀▀▀▀▀▀▀▀                     ▐██    |
-██▌                                                                ▐██    |
-██▌                                                                ▐██    |
-██▌                                                                ▐██    |
-██████████████████████████████████████████████████████████████████████    |
-
-`)
-
-const cam = new Webcam(document.getElementById("cam"), 'element', document.getElementById("can"))
-cam.start()
-
-function connect() {
-    var ws = new WebSocket('ws://localhost:8000');
-    ws.onopen = function () {
-        term.echo("Connected to Websocket Server") 
-    };
-
-    ws.onmessage = function (e) {
-        term.echo('Message:' + e.data);
-
-        if (e.data == "pls img\n") {
-            term.echo("Taking image...")
-            sn = cam.snap()
-            ws.send(sn)
-            
-        }
-    };
-
-    ws.onclose = function (e) {
-        term.echo('Socket is closed. Reconnect will be attempted in 1 second: ' +  e.reason);
-        setTimeout(function () {
-            connect();
-        }, 1000);
-    };
-
-    ws.onerror = function (err) {
-        term.echo('Socket encountered error: ' + err.message + ' Closing socket');
-        ws.close();
-    };
+fetched_data = {
+    "sorted": {
+        "31007": [2,8]
+    },
+    "current": {
+        "pid": 35077,
+        "pos": [7, 7]
+    }
 }
 
-connect();
+box_lookup = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+]
+
+emptyimg = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+
+partnr = document.querySelector("#partnr")
+imges = document.querySelector("#image")
+pos = document.querySelector("#pos")
+
+async function reloadFrom(data) {
+    imgdata = []
+
+    sorted = data["sorted"]
+
+    for (let i = 0; i<6; i++) {
+        rowdata = []
+        for (let x = 0; x<6; x++) {
+            rowdata.push(emptyimg)
+        }
+        
+        imgdata.push(rowdata)
+    }
+
+    for (let id in sorted) {
+        image = "pictures/" + id + ".png"
+
+        console.log("---")
+        console.log("picture: ", image);
+
+        x = sorted[id][0]-1
+        y = sorted[id][1]-1
+
+        boxid = 0
+
+        if(x < 3) {
+            boxid = 3
+        } else {
+            x -= 3;
+        }
+
+        if (y < 3) {
+            boxid += 2
+        } else if (y >= 3 && y < 6) {
+            boxid +=1
+            y -= 3
+        } else {
+            y -= 6
+        }
+
+        console.log("boxid: ", boxid);
+        console.log("pos in box: [", x, ", ", y, "]")
+        
+        cellid = box_lookup[x][y]
+
+        console.log("cellid: ", cellid)
+        imgdata[boxid][cellid] = image
+    }
+
+    for (let bid = 0; bid<6; bid++) {
+        row = imgdata[bid]
+        rowchild = positions.children[bid]
+        for (let cid = 0; cid<6; cid++) {
+            img = row[cid]
+
+            rowchild.children[cid].children[0].src = img
+        }
+    }
+
+    partnr.innerHTML = data["current"]["pid"]
+    imges.src = "pictures/" + data["current"]["pid"] + ".png"
+    pos.innerHTML = data["current"]["pos"]
+}
+
+function reload() {
+    fetch("/data").then(data => {
+        reloadFrom(data.json())
+    })
+}
+
+setInterval(reload, 1000);

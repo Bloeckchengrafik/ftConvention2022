@@ -1,4 +1,4 @@
-from asyncio import Event
+from asyncio import Event, gather
 from logging import error, info
 from helpers import ainput
 from swarm import FtSwarm
@@ -6,9 +6,11 @@ from swarm import FtSwarm
 swarm: FtSwarm = None
 
 detect_repl_event = Event()
+gather_repl_event = Event()
 
 latest_commands = {
-    "detect": ""
+    "detect": "",
+    "gather": ""
 }
 
 async def main(globalstate):
@@ -31,6 +33,11 @@ async def main(globalstate):
         if cmd.startswith("detect"):
             latest_commands["detect"] = cmd.removeprefix("detect").strip()
             detect_repl_event.set()
+            continue
+
+        if cmd.startswith("gather"):
+            latest_commands["gather"] = cmd.removeprefix("gather").strip()
+            gather_repl_event.set()
             continue
         
         error("Command not recognized")

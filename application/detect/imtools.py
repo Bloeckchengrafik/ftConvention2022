@@ -1,16 +1,9 @@
-from concurrent.futures import thread
 import math
-from detect.server import outqueue, inqueue
 import cv2
-import imutils
 import numpy as np
 
 
 class ImageTool:
-    def get_img(self) -> cv2.Mat:
-        inqueue.put(1)
-        return outqueue.get()
-
     def crop(self, mat, x, y, h, w):
         return mat[y:y+h, x:x+w]
 
@@ -36,7 +29,8 @@ class ImageTool:
 
     
     def apply_soft_light(self, bottom, top):
-        """ Apply soft light blending
+        """ 
+        Apply soft light blending
         """
 
         result = np.zeros(bottom.shape, dtype=bottom.dtype)

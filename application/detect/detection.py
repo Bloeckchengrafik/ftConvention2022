@@ -1,42 +1,143 @@
-from email.mime import image
-from logging import info
+import asyncio
+from logging import info, critical
+from threading import Thread
 from detect.imtools import ImageTool
-from detect.movement import Movement
-import cv2 as cv
+from ftrobopy import ftrobopy
+from PIL import Image
+import cv2
+import time
+from io import BytesIO
+import numpy as np
+import asyncio
+import swarm
 
+class EventTS(asyncio.Event):
+    def set(self):
+        super().set()
+
+class ImageGatherThread(Thread):
+    def values(self, event: EventTS, swarm: swarm.FtSwarm, stopmepls):
+        self.event = event
+        self.lit = None
+        self.unlit = None
+        self.swarm = swarm
+        self.stopmepls = stopmepls
+        return self
+
+    async def ledon(self):
+        await self.swarm.system("led on")
+
+
+    async def ledoff(self):
+        await self.swarm.system("led off")
+
+    def run(self):
+        txt = None
+        time.sleep(0.1)
+        while True:
+            try:
+                info("Trying to get Frame 1")
+                txt = ftrobopy("192.168.188.25")
+                if txt.getCameraFrame() == None:
+                    txt.startCameraOnline()
+                    time.sleep(3)
+                frame = txt.getCameraFrame()
+                frame = bytearray(frame)
+
+                with open("out/capture0.jpg", "wb") as ifile:
+                    ifile.write(frame)
+                time.sleep(0.1)
+                self.lit = cv2.imread("out/capture0.jpg")
+                #self.lit = self.lit[:,:,::-1]
+                break
+            except Exception as e: 
+                critical(e)
+                if txt is not None:
+                    try:
+                        txt.stopCameraOnline()
+                    except: pass
+                    txt.stopOnline()
+        info("Working on Im2")
+        self.stopmepls.set()
+        time.sleep(4)
+
+        while True:
+            try:
+                frame = txt.getCameraFrame()
+                frame = bytearray(frame)
+
+                
+                with open("out/capture1.jpg", "wb") as ifile:
+                    ifile.write(frame)
+
+                time.sleep(0.1)
+                self.unlit = cv2.imread("out/capture1.jpg")
+                #self.unlit = self.unlit[:,:,::-1]
+                break
+            except: pass
+        
+        txt.stopCameraOnline()
+        txt.stopOnline()
+
+        self.event.set()
 
 class Detect(ImageTool):
-    def __init__(self, movement: Movement) -> None:
-        self.mv = movement
+    def __init__(self, swarm: swarm.FtSwarm):
+        self.swarm = swarm
 
-    async def turntable_check_optimized(self) -> float:    
-        img = self.crop_and_scale_for_top_view(self.get_img())
-        img = self.sharpen(img)
-        cv.imwrite("out/sharpened.png", img)
+    async def images(self):
+        info("Gathering image data...")
+        led: swarm.FtSwarmMotor = await self.swarm.get_motor("sideled")
 
-        img, _ = self.remove_shadows(img)
-        img, _ = self.remove_shadows(img)
+        event = EventTS()
+        stopmepls = EventTS()
+        th = ImageGatherThread().values(event, self.swarm, stopmepls)
+        await th.ledon()
+        await asyncio.sleep(0.5)
+        await th.ledon()
+        await asyncio.sleep(0.5)
+        await th.ledon()
+        await asyncio.sleep(0.5)
+        await th.ledon()
+        th.start()
+        await stopmepls.wait()
+        await led.set_speed(255)
+        await th.ledoff()
+        await th.ledoff()
+        await th.ledoff()
 
-        cv.imwrite("out/shadows.png", img)
+        await event.wait()
+        await led.set_speed(0)
 
-        desat = self.desat(img)
-        inverted_desat = self.invert(desat)
-        softlight = self.apply_soft_light(img, inverted_desat)
-        softlight = self.sharpen(softlight)
-        thresh = self.get_elem(softlight)
+        cv2.imwrite("out/lit.png", th.lit)
+        cv2.imwrite("out/unlit.png", th.unlit)
 
-        edge = img
+        return (th.lit, th.unlit)
 
-        for x in range(50):
-            for y in range(50):
-                edge[x][y] = (0, 0, 0)
-                if thresh[x][y] > 1:
-                    edge[x][y] = (255, 255, 255)
-        
-        cv.imwrite("out/edge.png", edge)
-        cv.imwrite("out/sl.png", softlight)
-        return 0
+    async def cropimg(self, image, num):
+        rectangle = [65, 10, 200, 190]
 
-    async def optimize_turntable(self) -> None:
-        await self.mv.turnTurntable(self.turntable_check_optimized)
-        
+        cv2.imwrite(f"out/cropped{num}.png", self.crop(image, *rectangle))
+
+        return self.crop(image, *rectangle)
+
+    async def grabcut(self, image):
+        image = await self.cropimg(image, 0)
+
+        mask = np.zeros(image.shape[:2], np.uint8)
+  
+        backgroundModel = np.zeros((1, 65), np.float64)
+        foregroundModel = np.zeros((1, 65), np.float64)
+
+        rectangle = [5, 10, 190, 205]
+
+        cv2.grabCut(image, mask, rectangle, 
+            backgroundModel, foregroundModel,
+            3, cv2.GC_INIT_WITH_RECT)
+
+        mask2 = np.where((mask == 2)|(mask == 0), 0, 1).astype('uint8')
+        image = image * mask2[:, :, np.newaxis]
+
+        unique, counts = np.unique(mask2, return_counts=True)
+
+        return image, mask2, dict(zip(unique, counts))[1]

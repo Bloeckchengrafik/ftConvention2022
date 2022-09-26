@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ftSwarm.h>
 #include <FastLED.h>
+#include <esp_task_wdt.h>
 
 enum Trilean_t
 {
@@ -12,13 +13,14 @@ enum Trilean_t
 enum SwarmTypeElement_t
 {
     Digital,
-    Motor
+    Motor,
+    Led
 };
 
 class Node
 {
 public:
-    String name;
+    char name[100];
     SwarmTypeElement_t type;
 
     FtSwarmSwitch *asSwitch;
@@ -26,12 +28,14 @@ public:
 
     FtSwarmMotor *asMotor;
 
+    FtSwarmLED *asLED;
+
     Node *next;
     bool has_next;
 };
 
-FtSwarmSerialNumber_t fullSwarm[20];
-FtSwarmSerialNumber_t *ctx;
+FtSwarmSerialNumber_t local;
+FtSwarmSerialNumber_t lower = 2;
 
 Node *head;
 Node *tail;
@@ -109,7 +113,7 @@ bool containsNode(const char *name)
 
     while (1)
     {
-        if (current->name.equals(name))
+        if (strcmp(current->name, name) == 0)
         {
             return true;
         }
@@ -131,7 +135,7 @@ Node *getNode(const char *name)
 
     while (1)
     {
-        if (current->name.equals(name))
+        if (strcmp(current->name, name) == 0)
         {
             return current;
         }
@@ -156,14 +160,18 @@ void setup()
 {
     Serial.begin(115200);
 
-    fullSwarm[0] = ftSwarm.begin();
-    ctx = &fullSwarm[0];
+    Serial.print("Setup: Executing on core "); Serial.println(xPortGetCoreID());
+    esp_task_wdt_init(30, false);
+
+    local = ftSwarm.begin();
 
     Serial.println(F(">>>"));
 }
 
 void loop()
 {
+    delay(25);
+
     // Work on Commands by the Controller
     if (Serial.available())
     {
@@ -181,35 +189,33 @@ void loop()
 
         String args = command.substring(command.indexOf(" "));
 
+
         if (command.startsWith("sub"))
         {
             command = command.substring(4);
+            
 
             if (command.startsWith("digital"))
             {
                 command = command.substring(8);
-
-                if (containsNode(command.c_str()))
-                {
-                    Serial.printf("#info Already Subscribed to Button Press on %s\r\n", command);
-                    Serial.println("neu sub");
-                    return;
-                }
+                //if (containsNode(command.c_str()))
+                //{
+                //    Serial.printf("#info Already Subscribed to Button Press on %s\r\n", command.c_str());
+                //    Serial.println("neu sub");
+                //    return;
+                //}
 
                 Node *node = new Node();
 
-                char cached_name[100];
-                strcpy(cached_name, command.c_str());
-
-                node->name = command;
+                strcpy(node->name, command.c_str());
                 node->type = SwarmTypeElement_t::Digital;
-                node->asSwitch = new FtSwarmSwitch(cached_name);
+                node->asSwitch = new FtSwarmSwitch(command.c_str());
                 node->asSwitchState = Maybe;
                 node->has_next = false;
 
                 appendNode(node);
 
-                Serial.printf("#debug Subscribed to Button Press on %s\r\n", command);
+                Serial.printf("#debug Subscribed to Button Press on %s\r\n", command.c_str());
                 Serial.println("suc sub");
                 return;
             }
@@ -225,32 +231,32 @@ void loop()
             String value = command.substring(index+1);
             command = command.substring(0, index);
 
+            char cached_name[100];
+            strcpy(cached_name, command.c_str());
 
-            Node *node;
+            FtSwarmMotor *mot = new FtSwarmMotor(cached_name);
+            mot->setSpeed(value.toInt());
+            
+            Serial.printf("suc mot %d\r\n", value.toInt());
+        }
+        else if (command.startsWith("led")){
 
-            if (!containsNode(command.c_str())){
-                node = new Node();
-
-                char cached_name[100];
-                strcpy(cached_name, command.c_str());
-
-                node->name = command;
-                node->type = SwarmTypeElement_t::Motor;
-                node->asMotor = new FtSwarmMotor(cached_name);
-                node->has_next = false;
-
-                appendNode(node);
+            
+            if (command.startsWith("led on")) {
+                for (int i = 2; i < 16; i++) {
+                    FtSwarmLED *led = new FtSwarmLED(local, i);
+                    led->setColor(CRGB::White);
+                    led->setBrightness(100);
+                }
             } else {
-                node = getNode(command.c_str());
+                for (int i = 2; i < 16; i++) {
+                    FtSwarmLED *led = new FtSwarmLED(local, i);
+                    led->setColor(CRGB::Black);
+                    led->setBrightness(0);
+                }
             }
 
-            node->asMotor->setSpeed(value.toInt());
-            Serial.println("suc mot");
-        }
-        else if (command.startsWith("led"))
-        {
-            Serial.println("#error LEDs are currently not implemented");
-            Serial.println("err led");
+            Serial.println("suc led");
         }
         else if (command.startsWith("srv"))
         {
@@ -261,6 +267,14 @@ void loop()
         {
             printNodes();
             Serial.println("suc nod");
+        }
+        else if (command.startsWith("stp"))
+        {
+            ftSwarm.setup();
+            Serial.println("suc stp");
+        }else if (command.startsWith("res"))
+        {
+            ESP.restart();
         }
     }
 

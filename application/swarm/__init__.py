@@ -13,6 +13,10 @@ class FtSwarm:
         self.oninput = asyncio.Event()
         self.line = ""
         self.debug = dbg
+        info("Trying to reboot")
+
+        self.ser.write("res\r\n".encode())
+
         warn("Waiting for a reset...")
 
         while self.ser.in_waiting <= 0:
@@ -22,7 +26,9 @@ class FtSwarm:
             message = self.ser.read_until(serial.LF)
             if i == 0:
                 debug(f"Message from the ftSwarm:")
-            debug("- " + message.decode("UTF-8").removesuffix("\r\n"))
+            try:
+                debug("- " + message.decode("UTF-8").removesuffix("\r\n"))
+            except: pass
         self.ser.read_all()
         info("Connected to ftSwarm")
 
@@ -80,9 +86,13 @@ class FtSwarm:
                 elif line.startswith("!"):
                     split = line[1:].split(" ", 1)
                     await self.objects[split[0]].handle_input(split[1])
+                    if self.debug:
+                        print("\r", end="")
+                        debug(f"-!- {line}")
+
                     continue
 
-                elif self.debug:
+                if self.debug:
                     print("\r", end="")
                     debug(f"- {line}")
 
@@ -94,9 +104,12 @@ class FtSwarmSwitch:
         self.swarm = swarm
         self.name = name
         self.state = False
+        self.events = []
 
     async def handle_input(self, inp):
         self.state = False if inp == "0" else True
+        for event in self.events:
+            event.set()
 
     async def postinit(self):
         await self.swarm.system("sub digital " + self.name)
@@ -107,7 +120,12 @@ class FtSwarmButton(FtSwarmSwitch):
 
 
 class FtSwarmLightBarrier(FtSwarmSwitch):
-    pass
+    def closed(self):
+        """
+        Return if the light barrier is closed
+        """
+
+        return not self.state
 
 
 class FtSwarmReedSwitch(FtSwarmSwitch):

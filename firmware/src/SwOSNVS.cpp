@@ -149,7 +149,7 @@ bool SwOSNVS::load() {
   // ftSwarm
   } else {
     nvs_get_u8( my_handle, "RGBLeds", &RGBLeds );
-    if ( ( RGBLeds < 2 ) || ( RGBLeds > 16 ) ) RGBLeds = 2;
+    if ( ( RGBLeds < 2 ) || ( RGBLeds > 18 ) ) RGBLeds = 2;
   }
   
   size_t dummy;

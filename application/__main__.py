@@ -6,6 +6,7 @@ import sys, os
 from logging import error, info, debug
 import logging
 import coloredlogs
+import pickle
 
 from detect import main as detect
 from gather import main as gather
@@ -22,8 +23,6 @@ opt.add_option("-c", "--compile", help="Compile the program", action="store_true
 opt.add_option("-u", "--upload", help="Upload the program", action="store_true", default=False, dest="do_upload")
 opt.add_option("-d", "--debug", help="Start Application with all logs enabled", action="store_true", default=False, dest="debuglogger")
 opt.add_option("-a", "--app", help="Start the app", action="store_true", default=False, dest="do_app")
-opt.add_option("-t", "--notxt", help="Don't start the txt", action="store_true", default=False, dest="notxt")
-opt.add_option("-s", "--noswarm", help="Don't start the swarm", action="store_true", default=False, dest="noswarm")
 
 sys.argv[0] = "convention"
 
@@ -49,7 +48,6 @@ if not args.do_app:
     exit(0)
 
 
-
 os.chdir("../application")
 debug("Returned")
 
@@ -57,8 +55,11 @@ debug("Returned")
 portfiner = SerialPortFinder()
 
 globalstate = {
-    "current_part": Queue(),
-    "swarm": None
+    "current_part": 0,
+    "swarm": None,
+    "partdata": [
+        # [area, color]: pid
+    ]
 }
 
 detect_queue = Queue()
@@ -76,12 +77,11 @@ async def main():
 
     withswarm = []
 
-    if not args.noswarm:
-        globalstate["swarm"] = FtSwarm(portfiner.find(),  args.debuglogger)
+    globalstate["swarm"] = FtSwarm(portfiner.find(),  args.debuglogger)
 
-        withswarm += [
+    withswarm += [
             globalstate["swarm"].inputloop()
-        ]
+    ]
     
     withswarm += [
         detect(globalstate, detect_queue),
@@ -94,12 +94,6 @@ async def main():
 
     all = withswarm + withtxt
 
-    if args.notxt:
-        all = withswarm
-
-    if args.noswarm:
-        all = withtxt
-    
     await gather_tasks(
         *[try_run(a) for a in all],
         repl(globalstate))
