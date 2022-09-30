@@ -76,6 +76,7 @@ void appendNode(Node *node)
     }
 
     tail->next = node;
+    tail->has_next = true;
     tail = node;
 }
 
@@ -163,6 +164,7 @@ void setup()
     Serial.print("Setup: Executing on core "); Serial.println(xPortGetCoreID());
     esp_task_wdt_init(30, false);
 
+    ftSwarm.verbose(true);
     local = ftSwarm.begin();
 
     Serial.println(F(">>>"));
@@ -258,11 +260,30 @@ void loop()
 
             Serial.println("suc led");
         }
-        else if (command.startsWith("srv"))
+        else if (command.startsWith("otr"))
         {
-            Serial.println("#error Servos are not implemented");
-            Serial.println("err srv");
-        }
+            command = command.substring(4);
+
+            int i = command.indexOf(" ");
+            String nameIn = command.substring(0, i);
+            command = command.substring(i);
+
+            i = command.indexOf(" ");
+            uint8_t actionIn = command.substring(0, i).toInt();
+            command = command.substring(i);
+
+            i = command.indexOf(" ");
+            String nameOut = command.substring(0, i);
+            command = command.substring(i);
+            
+            FtSwarmSwitch *in = new FtSwarmSwitch(nameIn.c_str());
+            FtSwarmTrigger_t trigger = (actionIn == 0) ? FTSWARM_TRIGGERDOWN : FTSWARM_TRIGGERUP;
+            FtSwarmMotor *out = new FtSwarmMotor(nameOut.c_str());
+            int valueOut = command.toInt();
+
+            in->onTrigger(trigger, out, valueOut);
+            Serial.println("suc otr");
+        } 
         else if (command.startsWith("nod"))
         {
             printNodes();

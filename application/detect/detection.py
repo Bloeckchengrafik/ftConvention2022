@@ -87,7 +87,7 @@ class Detect(ImageTool):
 
     async def images(self):
         info("Gathering image data...")
-        led: swarm.FtSwarmMotor = await self.swarm.get_motor("sideled")
+        led: swarm.FtSwarmMotor = await self.swarm.get_motor("ledoben")
 
         event = EventTS()
         stopmepls = EventTS()
@@ -101,7 +101,7 @@ class Detect(ImageTool):
         await th.ledon()
         th.start()
         await stopmepls.wait()
-        await led.set_speed(255)
+        await led.set_speed(50)
         await th.ledoff()
         await th.ledoff()
         await th.ledoff()
@@ -112,7 +112,7 @@ class Detect(ImageTool):
         cv2.imwrite("out/lit.png", th.lit)
         cv2.imwrite("out/unlit.png", th.unlit)
 
-        return (th.lit, th.unlit)
+        return (cv2.imread("out/lit.png"), cv2.imread("out/unlit.png"))
 
     async def cropimg(self, image, num):
         rectangle = [65, 10, 200, 190]
@@ -141,3 +141,45 @@ class Detect(ImageTool):
         unique, counts = np.unique(mask2, return_counts=True)
 
         return image, mask2, dict(zip(unique, counts))[1]
+
+    async def recut(self, source):
+        rectangle = [65, 11, 190, 190]
+
+        lab= cv2.cvtColor(source, cv2.COLOR_BGR2LAB)
+        l_channel, a, b = cv2.split(lab)
+        clahe = cv2.createCLAHE(clipLimit=10.0, tileGridSize=(8,8))
+        cl = clahe.apply(l_channel)
+        limg = cv2.merge((cl,a,b))
+        source = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+
+        source2 = np.ones_like(source)
+
+        source = self.crop(source, *rectangle)
+
+        source = cv2.GaussianBlur(source, (3, 3), 1)
+
+        old_image_height, old_image_width, channels = source.shape
+        new_image_height, new_image_width, _ = source2.shape
+        color = (255,248,248)
+        res = np.full((new_image_height,new_image_width, channels), color, dtype=np.uint8)
+        x_center = (new_image_width - old_image_width) // 2
+        y_center = (new_image_height - old_image_height) // 2
+ 
+        res[y_center:y_center+old_image_height, 
+            x_center:x_center+old_image_width] = source
+
+        source = res
+        mask = np.zeros(source.shape[:2], np.uint8)
+  
+        backgroundModel = np.zeros((1, 65), np.float64)
+        foregroundModel = np.zeros((1, 65), np.float64)
+
+        cv2.grabCut(source, mask, rectangle, 
+            backgroundModel, foregroundModel,
+            3, cv2.GC_INIT_WITH_RECT)
+
+        mask2 = np.where((mask == 2)|(mask == 0), 0, 1).astype('uint8')
+        source = source * mask2[:, :, np.newaxis]
+
+        unique, counts = np.unique(mask2, return_counts=True)
+        return source, mask2, dict(zip(unique, counts))[1]

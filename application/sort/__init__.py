@@ -35,8 +35,8 @@ async def main(globalstate, pipe: Queue):
         if not is_computer_online(SORTER_IP):
             info("Sorter Computer isn't online, skipping")
 
-            if input("Continue? (y/n)") == 'y':
-                sort_done_event.set()
+            print("Working ")
+            sort_done_event.set()
             continue
 
         debug("Sorter online")

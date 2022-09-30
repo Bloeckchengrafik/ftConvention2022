@@ -13,6 +13,16 @@ latest_commands = {
     "gather": ""
 }
 
+enable_repl = True
+
+def lock_repl():
+    global enable_repl
+    enable_repl = False
+
+def unlock_repl():
+    global enable_repl
+    enable_repl = True
+
 async def main(globalstate):
     global swarm
 

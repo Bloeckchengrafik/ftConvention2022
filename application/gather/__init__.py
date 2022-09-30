@@ -26,20 +26,21 @@ async def main(globalstate, pipe: Queue):
 
         await run(belt_back, belt_front, lb_event)
 
-async def do_belt(belt_back: FtSwarmMotor, belt_front: FtSwarmMotor, lb_event: Event):
-    await belt_front.set_speed(255)
-    await belt_back.set_speed(255)
-    lb_event.clear() 
-    await lb_event.wait()
-    lb_event.clear() 
-    await belt_front.set_speed(0)
-    await belt_back.set_speed(0)
-
 async def run(belt_back: FtSwarmMotor, belt_front: FtSwarmMotor, lb_event: Event):
     info("Beginning the pipeline with gathering a part...")
 
-    await do_belt(belt_back, belt_front, lb_event)
-    await do_belt(belt_back, belt_front, lb_event)
+    await belt_front.set_speed(65)
+    await belt_back.set_speed(25)
+    lb_event.clear() 
+    await lb_event.wait()
+    lb_event.clear() 
+    await lb_event.wait()
+    lb_event.clear() 
+    await belt_back.set_speed(0)
+    await belt_front.set_speed(50)
+    await sleep(1)
+        
+    await belt_front.set_speed(0)
 
     info("Done! A part is now on the camera driver")
     gather_done_event.set()

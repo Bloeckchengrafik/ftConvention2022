@@ -29,7 +29,7 @@ FtSwarmIO::FtSwarmIO( FtSwarmSerialNumber_t serialNumber, FtSwarmPort_t port, Ft
 
     // no success, wait 25 ms
     if ( (!me) && ( firstTry ) ) {
-      ESP_LOGD( LOGFTSWARM, "waiting on device" );
+      ESP_LOGD( LOGFTSWARM, "waiting on device");
       myOSSwarm.setState( WAITING );
       firstTry = false;
     }
@@ -51,7 +51,7 @@ FtSwarmIO::FtSwarmIO( const char *name ) {
 
     // no success, wait 25 ms
     if ( (!me) && ( firstTry ) ) {
-      ESP_LOGD( LOGFTSWARM, "waiting on device" );
+      ESP_LOGD( LOGFTSWARM, "waiting on device %s", name);
       myOSSwarm.setState( WAITING );
       firstTry = false;
     }

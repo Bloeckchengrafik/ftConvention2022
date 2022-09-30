@@ -8,6 +8,8 @@ import asyncio
 class FtSwarm:
     objects = {}
 
+    lock = asyncio.Lock()
+
     def __init__(self, port, dbg):
         self.ser = serial.Serial(port, 115200, timeout=5)
         self.oninput = asyncio.Event()
@@ -22,20 +24,22 @@ class FtSwarm:
         while self.ser.in_waiting <= 0:
             pass
 
-        for i in range(13):
+        debug(f"Message from the ftSwarm:")
+        while True:
             message = self.ser.read_until(serial.LF)
-            if i == 0:
-                debug(f"Message from the ftSwarm:")
             try:
                 debug("- " + message.decode("UTF-8").removesuffix("\r\n"))
+                if ">>>" in message.decode("UTF-8").removesuffix("\r\n"): break
             except: pass
         self.ser.read_all()
         info("Connected to ftSwarm")
 
     async def system(self, promt):
+        await self.lock.acquire()
         self.ser.write(f"{promt}\r\n".encode())
         await self.oninput.wait()
         self.oninput.clear()
+        self.lock.release()
         return self.line
 
     async def get_obj(self, typeclass, name):
@@ -83,6 +87,10 @@ class FtSwarm:
                         logging._nameToLevel[line[0].upper()], f"- {line[1]}")
                     continue
 
+                if line.startswith("[") and self.debug:
+                    print("\r", end="")
+                    debug(f"{line}")
+
                 elif line.startswith("!"):
                     split = line[1:].split(" ", 1)
                     await self.objects[split[0]].handle_input(split[1])
@@ -105,6 +113,12 @@ class FtSwarmSwitch:
         self.name = name
         self.state = False
         self.events = []
+
+    async def wait(self):
+        ev = asyncio.Event()
+        self.events.append(ev)
+        await ev.wait()
+        self.events.remove(ev)
 
     async def handle_input(self, inp):
         self.state = False if inp == "0" else True

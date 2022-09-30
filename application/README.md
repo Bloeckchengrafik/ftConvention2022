@@ -10,14 +10,15 @@
 
 Config Kelda
 ```
-( 1) hostname ftSwarm13 - Kelda
-( 2) A1   - testbutton
-( 3) A2   -
-( 4) A3   -
-( 5) A4   -
-( 6) M1   - Kameraarm
-( 7) M2   - Drehscheibe
-( 8) LED1 -
-( 9) LED2 -
-(10) SERVO -
+A1   - endstoplower                    
+A2   - endstoptop                      
+M1   - motoben                         
+M2   - sideled 
 ```
+
+( 2) A1   - endstoplower                    
+( 3) A2   -                                 
+( 4) A3   - endstoptop                      
+( 5) A4   -                                 
+( 6) M1   - motoben                         
+( 7) M2   - ledoben   

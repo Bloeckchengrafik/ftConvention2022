@@ -1,0 +1,25 @@
+html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+iframe {
+    height: 100%;
+    aspect-ratio: 4/3;
+    border: none;
+}
