@@ -1,0 +1,142 @@
+{
+    "gray": {
+        "bounds": {
+            "upper": [
+                223,
+                209,
+                188
+            ],
+            "lower": [
+                107,
+                40,
+                50
+            ]
+        },
+        "parts": {
+            "basic": {
+                "pid": 31007,
+                "vals": []
+            },
+            "lampholder": {
+                "pid": 38217,
+                "vals": []
+            },
+            "static1x1": {
+                "pid": 36304,
+                "vals": [32579, 32573, 32588]
+            }
+        }
+    },
+    "red": {
+        "bounds": {
+            "upper": [
+                220,
+                107,
+                107
+            ],
+            "lower": [
+                107,
+                40,
+                50
+            ]
+        },
+        "parts": {
+            "30x1/3": {
+                "pid": 35049,
+                "vals": []
+            },
+            "15x1/3": {
+                "pid": 37237,
+                "vals": []
+            },
+            "60deg": {
+                "pid": 31010,
+                "vals": []
+            },
+            "bearing": {
+                "pid": 32064,
+                "vals": []
+            },
+            "reedclip": {
+                "pid": 35969,
+                "vals": []
+            },
+            "staticconnector": {
+                "pid": 36973,
+                "vals": []
+            },
+            "minigear": {
+                "pid": 31020,
+                "vals": [32741, 32807]
+            },
+            "wheel": {
+                "pid": 36581,
+                "vals": []
+            }
+        }
+    },
+    "black": {
+        "bounds": {
+            "upper": [
+                155,
+                138,
+                145
+            ],
+            "lower": [
+                36,
+                26,
+                38
+            ]
+        },
+        "parts": {
+            "lampholder": {
+                "pid": 38216,
+                "vals": []
+            },
+            "basic": {
+                "pid": 32881,
+                "vals": []
+            },
+            "wheel": {
+                "pid": 36574,
+                "vals": []
+            },
+            "miniwheel": {
+                "pid": 36573,
+                "vals": [1585, 1884]
+            },
+            "staticconector": {
+                "pid": 32850,
+                "vals": [3470]
+            }
+        }
+    },
+    "yellow": {
+        "bounds": {
+            "upper": [
+                244,
+                235,
+                206
+            ],
+            "lower": [
+                191,
+                147,
+                104
+            ]
+        },
+        "parts": {
+            "cap": {
+                "pid": 35085,
+                "vals": []
+            },
+            "basic": {
+                "pid": 36529,
+                "vals": []
+            },
+            "static1x1": {
+                "pid": 36298,
+                "vals": [32579, 32573, 32588]
+            }
+        }
+    }
+}
