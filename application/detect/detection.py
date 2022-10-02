@@ -37,10 +37,11 @@ class ImageGatherThread(Thread):
         while True:
             try:
                 info("Trying to get Frame 1")
-                txt = ftrobopy("192.168.188.25")
+                txt = ftrobopy("192.168.188.23")
                 if txt.getCameraFrame() == None:
                     txt.startCameraOnline()
                     time.sleep(3)
+                time.sleep(2)
                 frame = txt.getCameraFrame()
                 frame = bytearray(frame)
 
@@ -101,7 +102,7 @@ class Detect(ImageTool):
         await th.ledon()
         th.start()
         await stopmepls.wait()
-        await led.set_speed(50)
+        await led.set_speed(60)
         await th.ledoff()
         await th.ledoff()
         await th.ledoff()
@@ -112,7 +113,7 @@ class Detect(ImageTool):
         cv2.imwrite("out/lit.png", th.lit)
         cv2.imwrite("out/unlit.png", th.unlit)
 
-        return (cv2.imread("out/lit.png"), cv2.imread("out/unlit.png"))
+        return (cv2.imread("out/lit.png", 0), cv2.imread("out/unlit.png"))
 
     async def cropimg(self, image, num):
         rectangle = [65, 10, 200, 190]
@@ -142,16 +143,12 @@ class Detect(ImageTool):
 
         return image, mask2, dict(zip(unique, counts))[1]
 
-    async def recut(self, source):
+    async def recut(self, source, unlit):
         rectangle = [65, 11, 190, 190]
 
-        lab= cv2.cvtColor(source, cv2.COLOR_BGR2LAB)
-        l_channel, a, b = cv2.split(lab)
-        clahe = cv2.createCLAHE(clipLimit=10.0, tileGridSize=(8,8))
-        cl = clahe.apply(l_channel)
-        limg = cv2.merge((cl,a,b))
-        source = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
-
+        _, source = cv2.threshold(source, 230, 255, cv2.THRESH_BINARY_INV)
+        source= cv2.cvtColor(source, cv2.COLOR_GRAY2BGR)
+    
         source2 = np.ones_like(source)
 
         source = self.crop(source, *rectangle)
@@ -160,7 +157,7 @@ class Detect(ImageTool):
 
         old_image_height, old_image_width, channels = source.shape
         new_image_height, new_image_width, _ = source2.shape
-        color = (255,248,248)
+        color = (250,250,250)
         res = np.full((new_image_height,new_image_width, channels), color, dtype=np.uint8)
         x_center = (new_image_width - old_image_width) // 2
         y_center = (new_image_height - old_image_height) // 2
@@ -181,5 +178,14 @@ class Detect(ImageTool):
         mask2 = np.where((mask == 2)|(mask == 0), 0, 1).astype('uint8')
         source = source * mask2[:, :, np.newaxis]
 
+        source= cv2.cvtColor(source, cv2.COLOR_BGR2GRAY)
+        _, source = cv2.threshold(source, 1, 255, cv2.THRESH_BINARY)
+        source= cv2.cvtColor(source, cv2.COLOR_GRAY2BGR)
+
         unique, counts = np.unique(mask2, return_counts=True)
-        return source, mask2, dict(zip(unique, counts))[1]
+
+        unlit = cv2.copyMakeBorder(unlit, 13, 0, 0, 0, cv2.BORDER_CONSTANT, None, value = 0)
+
+        nextgen = cv2.bitwise_and(unlit[0:source.shape[0], 0:source.shape[1]], source)
+
+        return nextgen, source, dict(zip(unique, counts))[1]

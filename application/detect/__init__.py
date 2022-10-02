@@ -40,26 +40,21 @@ async def main(globalstate, pipe: Queue):
             lit = cv.imread("out/lit.png")
             unlit = cv.imread("out/unlit.png")
 
-        grabbed,mask,area = await detect.recut(lit)
-
-        unlit = cv.copyMakeBorder(unlit, 13, 0, 0, 0, cv.BORDER_CONSTANT, None, value = 0)
+        grabbed,mask,area = await detect.recut(lit, unlit)
 
         avg = [0,0,0]
         avgamount = 0
 
-        colormask = np.zeros_like(unlit)
-
         for x in range(lit.shape[0]):
             for y in range(lit.shape[1]):
-                if mask[x][y] != 0:
-                    color = unlit[x][y]
+                if np.sum(mask[x][y]) != 0:
+                    color = grabbed[x][y]
                     avg[0] += color[0]
                     avg[1] += color[1]
                     avg[2] += color[2]
                     avgamount += 1
-                    colormask[x][y] = color
 
-        cv.imwrite("out/cmask.png", colormask)
+        cv.imwrite("out/cmask.png", mask)
 
         if avgamount == 0:
             critical("OH NO")
@@ -71,8 +66,9 @@ async def main(globalstate, pipe: Queue):
         avg[0], avg[2] = avg[2], avg[0]
 
         cv.imwrite("out/grabbed.png", grabbed)
+        area = avgamount
 
-        info(f"Matching Area: {area}")
+        info(f"Matching Area: {avgamount}")
         info(f"Matching Color: {'#%02x%02x%02x' % tuple(avg)}")
 
         pid = -1
@@ -130,6 +126,7 @@ async def main(globalstate, pipe: Queue):
                 debug("Detected desat!")
                 if currenthsv[2] > 140:
                     info("It is gray")
+                    color = "gray"
                     nominations = db.proxy["gray"]['parts']
                 else:
                     nominations = db.proxy["black"]['parts']
@@ -142,7 +139,7 @@ async def main(globalstate, pipe: Queue):
             for i in insideout.copy():
                 good_insideout.extend([(abs(area - x), *(i[1:])) for x in i[0]])
 
-            good_insideout = list(reversed(sorted(good_insideout, key=lambda x: x[0])))
+            good_insideout = list(sorted(good_insideout, key=lambda x: x[0]))
 
             info("--- Part Detection Finals ---")
             
@@ -156,6 +153,8 @@ async def main(globalstate, pipe: Queue):
 
             pid = good_insideout[0][1]
 
+        #pid = 36573
+
         await motoben.set_speed(255)
         await endstoptop.wait()
         await motoben.set_speed(50)
@@ -167,6 +166,7 @@ async def main(globalstate, pipe: Queue):
         await motoben.set_speed(0) 
 
         info(f"Done! Part Number: {pid}")
+        globalstate["current_part"] = pid
         detect_done_event.set()
 
 

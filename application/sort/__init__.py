@@ -51,11 +51,10 @@ async def main(globalstate, pipe: Queue):
             info("Retrying Connect; n="+str(tryno))
 
         
-        conn = rpyc.connect("192.168.188.24", 18861, config={
-            "sync_request_timeout": 3600
-        })
+        conn = rpyc.connect(SORTER_IP, 18861)
         
         eventloop = asyncio.get_event_loop()
-        await eventloop.run_in_executor(None, conn.root.sort(globalstate["current_part"]))
-
+        try:
+            await eventloop.run_in_executor(None, conn.root.sort(globalstate["current_part"]))
+        except: pass
         

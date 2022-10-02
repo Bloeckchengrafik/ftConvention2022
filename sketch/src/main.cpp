@@ -248,7 +248,7 @@ void loop()
                 for (int i = 2; i < 16; i++) {
                     FtSwarmLED *led = new FtSwarmLED(local, i);
                     led->setColor(CRGB::White);
-                    led->setBrightness(100);
+                    led->setBrightness(50);
                 }
             } else {
                 for (int i = 2; i < 16; i++) {

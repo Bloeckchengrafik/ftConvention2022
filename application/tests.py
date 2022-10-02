@@ -9,7 +9,7 @@ from detect.imtools import ImageTool
 def errpaizeh():
     import rpyc
 
-    conn = rpyc.connect("192.168.188.24", 18861)
+    conn = rpyc.connect("192.168.188.26", 18861)
     print(conn.root.sort(35077))
 
 
@@ -73,15 +73,12 @@ def croptest():
 
 
 def ReGrab():
-    source = cv2.imread("out/lit.png")
+    source = cv2.imread("out/lit.png", 0)
+    cv2.imshow("very lit", source)
+    _, source = cv2.threshold(source, 225, 255, cv2.THRESH_BINARY_INV)
+    source= cv2.cvtColor(source, cv2.COLOR_GRAY2BGR)
 
-    lab= cv2.cvtColor(source, cv2.COLOR_BGR2LAB)
-    l_channel, a, b = cv2.split(lab)
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
-    cl = clahe.apply(l_channel)
-    limg = cv2.merge((cl,a,b))
-    source = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
-
+    cv2.imwrite("out/thresh.png", source)
     imtool = ImageTool()
     rectangle = [65, 11, 190, 190]
 
@@ -93,7 +90,7 @@ def ReGrab():
 
     old_image_height, old_image_width, channels = source.shape
     new_image_height, new_image_width, _ = source2.shape
-    color = (255,248,248)
+    color = (250,250,250)
     res = np.full((new_image_height,new_image_width, channels), color, dtype=np.uint8)
     x_center = (new_image_width - old_image_width) // 2
     y_center = (new_image_height - old_image_height) // 2
@@ -118,9 +115,15 @@ def ReGrab():
 
     cv2.imshow("regrab", source.copy())
 
+    unlit = cv2.imread("out/unlit.png")
 
-    cv2.waitKey(0)
+    unlit = cv2.copyMakeBorder(unlit, 13, 0, 0, 0, cv2.BORDER_CONSTANT, None, value = 0)
+
+    nextgen = cv2.bitwise_and(unlit[0:source.shape[0], 0:source.shape[1]], source)
+
+    cv2.imshow("mask", nextgen)
+
+    cv2.waitKey(0) 
     cv2.destroyAllWindows()
 
 ReGrab()
-os.system("py tests.py")

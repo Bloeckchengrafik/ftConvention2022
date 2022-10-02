@@ -29,7 +29,7 @@ async def main(globalstate, pipe: Queue):
 async def run(belt_back: FtSwarmMotor, belt_front: FtSwarmMotor, lb_event: Event):
     info("Beginning the pipeline with gathering a part...")
 
-    await belt_front.set_speed(65)
+    await belt_front.set_speed(70)
     await belt_back.set_speed(25)
     lb_event.clear() 
     await lb_event.wait()
