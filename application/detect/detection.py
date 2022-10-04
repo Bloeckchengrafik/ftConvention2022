@@ -146,7 +146,7 @@ class Detect(ImageTool):
     async def recut(self, source, unlit):
         rectangle = [65, 11, 190, 190]
 
-        _, source = cv2.threshold(source, 230, 255, cv2.THRESH_BINARY_INV)
+        _, source = cv2.threshold(source, 220, 255, cv2.THRESH_BINARY_INV)
         source= cv2.cvtColor(source, cv2.COLOR_GRAY2BGR)
     
         source2 = np.ones_like(source)

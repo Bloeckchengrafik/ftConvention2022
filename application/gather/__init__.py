@@ -25,6 +25,9 @@ async def main(globalstate, pipe: Queue):
         sort_done_event.clear()
 
         await run(belt_back, belt_front, lb_event)
+        
+        await sleep(120)
+        gather_repl_event.set()
 
 async def run(belt_back: FtSwarmMotor, belt_front: FtSwarmMotor, lb_event: Event):
     info("Beginning the pipeline with gathering a part...")
